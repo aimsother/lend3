@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIMS — Artificial Intelligence Melissa System</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1224399346569927');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1224399346569927&ev=PageView&noscript=1"
+  /></noscript>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17987925713"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17987925713');
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── ЦВЕТОВЫЕ ПЕРЕМЕННЫЕ ── */
+    :root {
+      --cream:        #faf7f2;
+      --cream-dark:   #f2ede4;
+      --cream-mid:    #e8e0d4;
+      --parchment:    #ede8df;
+      --white:        #ffffff;
+
+      --burgundy:     #6b1a2a;
+      --burgundy-lt:  #8b2438;
+      --burgundy-dk:  #4e1220;
+      --burgundy-bg:  rgba(107,26,42,0.06);
+      --burgundy-bdr: rgba(107,26,42,0.22);
+
+      --ink:          #1a1410;
+      --ink-dim:      rgba(26,20,16,0.55);
+      --ink-faint:    rgba(26,20,16,0.30);
+
+      --border:       rgba(26,20,16,0.10);
+      --border-md:    rgba(26,20,16,0.16);
+      --nav-bg:       rgba(250,247,242,0.97);
+
+      --display: 'Cormorant Garamond', serif;
+      --body:    'Syne', sans-serif;
+      --mono:    'IBM Plex Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--body); background: var(--cream); color: var(--ink); overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 64px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: block; width: 100px; text-decoration: none; }
+    .nav-logo img { width: 100%; display: block; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--body); font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--ink-dim); text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--burgundy); }
+    .nav-cta {
+      font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 10px 24px; background: var(--burgundy); color: #fff;
+      text-decoration: none; transition: background .2s;
+    }
+    .nav-cta:hover { background: var(--burgundy-lt); }
+
+    /* ── HERO — split layout ── */
+    .hero {
+      min-height: 100vh;
+      padding-top: 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      overflow: hidden;
+      background: var(--white);
+    }
+    .hero-left {
+      padding: 80px 6% 80px 6%;
+      display: flex; flex-direction: column; justify-content: center;
+      border-right: 1px solid var(--border);
+    }
+    .hero-right {
+      padding: 80px 6% 80px 5%;
+      display: flex; flex-direction: column; justify-content: center;
+      background: var(--cream);
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--burgundy); padding: 6px 14px;
+      border: 1px solid var(--burgundy-bdr);
+      background: var(--burgundy-bg);
+      margin-bottom: 36px; width: fit-content;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--burgundy); border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .hero h1 {
+      font-family: var(--display);
+      font-size: clamp(3rem, 4.5vw, 5.5rem);
+      font-weight: 600; line-height: 1.04;
+      color: var(--ink); margin-bottom: 28px;
+    }
+    .hero h1 em { font-style: italic; font-weight: 400; color: var(--burgundy); }
+
+    /* Декоративный разделитель */
+    .hero-divider {
+      width: 48px; height: 2px;
+      background: var(--burgundy);
+      margin-bottom: 28px;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem; color: var(--ink-dim); line-height: 1.9;
+      max-width: 44ch; font-weight: 400; margin-bottom: 40px;
+    }
+    .hero-sub strong { color: var(--ink); font-weight: 600; }
+
+    .hero-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-block; text-decoration: none;
+      font-family: var(--body); font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      padding: 15px 36px; background: var(--burgundy); color: #fff;
+      transition: all .25s;
+    }
+    .btn-primary:hover { background: var(--burgundy-lt); transform: translateY(-1px); }
+    .btn-outline {
+      display: inline-block; text-decoration: none;
+      font-family: var(--body); font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--ink-dim); padding: 15px 28px;
+      border: 1px solid var(--border-md); transition: all .2s;
+    }
+    .btn-outline:hover { border-color: var(--burgundy-bdr); color: var(--burgundy); }
+
+    /* Правая часть hero */
+    .hero-right-label {
+      font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--ink-faint); margin-bottom: 28px;
+    }
+    .hero-stats {
+      width: 100%; display: flex; flex-direction: column;
+      border: 1px solid var(--border); margin-bottom: 40px;
+      background: var(--white);
+    }
+    .h-stat {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    }
+    .h-stat:last-child { border-bottom: none; }
+    .h-stat-val {
+      font-family: var(--display); font-size: 2.2rem;
+      color: var(--burgundy); line-height: 1; font-weight: 600;
+    }
+    .h-stat-lbl {
+      font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--ink-faint); text-align: right;
+    }
+
+    /* Декоративная большая цифра */
+    .hero-deco-num {
+      font-family: var(--display); font-size: 8rem; font-weight: 700;
+      color: transparent; -webkit-text-stroke: 1px var(--cream-mid);
+      line-height: 1; letter-spacing: -0.04em; user-select: none;
+      margin-top: auto; padding-top: 32px;
+    }
+
+    /* ── ТИКЕР ── */
+    .ticker-wrap {
+      background: var(--ink);
+      overflow: hidden; padding: 12px 0; white-space: nowrap;
+    }
+    .ticker-track {
+      display: inline-flex; animation: ticker 30s linear infinite;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--mono); font-size: 0.67rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.65); padding: 0 36px;
+    }
+    .ticker-item span { color: var(--burgundy-lt); }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ── ФОРМА ЗАЯВКИ ── */
+    #request-form { scroll-margin-top: 80px; }
+    .apply-section {
+      background: var(--cream);
+      padding: 88px 5%;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .apply-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(40px,5vw,80px); align-items: center;
+    }
+    .apply-kicker {
+      font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--burgundy); margin-bottom: 18px;
+    }
+    .apply-left h2 {
+      font-family: var(--display); font-size: clamp(2rem,3vw,3.2rem);
+      font-weight: 600; line-height: 1.15; margin-bottom: 20px;
+    }
+    .apply-left h2 em { font-style: italic; font-weight: 400; color: var(--burgundy); }
+    .apply-left p {
+      font-size: 0.93rem; color: var(--ink-dim); line-height: 1.85;
+      max-width: 38ch; margin-bottom: 32px; font-weight: 400;
+    }
+    .apply-trust { display: flex; flex-direction: column; gap: 12px; }
+    .apply-trust-item {
+      display: flex; align-items: center; gap: 12px;
+      font-family: var(--mono); font-size: 0.64rem;
+      letter-spacing: 0.04em; color: var(--ink-dim);
+    }
+    .apply-trust-item::before { content: '—'; color: var(--burgundy); font-weight: 700; }
+
+    .apply-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 2.5rem 2.25rem;
+      box-shadow: 8px 8px 0 var(--cream-mid);
+    }
+    .apply-card-title {
+      font-family: var(--display); font-size: 1.4rem;
+      font-weight: 600; margin-bottom: 1.75rem; color: var(--ink);
+    }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label {
+      display: block; font-family: var(--mono); font-size: 0.58rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink-faint); margin-bottom: 0.5rem;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"] {
+      width: 100%; padding: 0.85rem 1rem;
+      font-family: var(--body); font-size: 0.92rem; font-weight: 400;
+      border: 1px solid var(--border-md);
+      background: var(--cream); color: var(--ink);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-group input::placeholder { color: var(--ink-faint); }
+    .form-group input:focus {
+      outline: none; border-color: var(--burgundy-bdr);
+      box-shadow: 0 0 0 3px rgba(107,26,42,0.07); background: var(--white);
+    }
+    .phone-field-wrap {
+      display: flex; align-items: stretch; width: 100%;
+      border: 1px solid var(--border-md); background: var(--cream);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .phone-field-wrap:focus-within {
+      border-color: var(--burgundy-bdr);
+      box-shadow: 0 0 0 3px rgba(107,26,42,0.07); background: var(--white);
+    }
+    .phone-prefix {
+      flex-shrink: 0; display: flex; align-items: center;
+      padding: 0.85rem 0.8rem 0.85rem 1rem;
+      font-family: var(--mono); font-size: 0.85rem; font-weight: 500;
+      color: var(--ink-dim); border-right: 1px solid var(--border-md);
+      background: var(--parchment);
+    }
+    .form-group .phone-input {
+      flex: 1; min-width: 0; border: none;
+      padding: 0.85rem 1rem; color: var(--ink); background: transparent;
+      font-family: var(--body); font-size: 0.92rem;
+    }
+    .form-group .phone-input::placeholder { color: var(--ink-faint); }
+    .form-group .phone-input:focus { outline: none; box-shadow: none; }
+    .form-actions { margin-top: 1rem; display: flex; flex-direction: column; gap: 10px; }
+    .submit-btn {
+      width: 100%; padding: 1.05rem 1.5rem;
+      font-family: var(--body); font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      background: var(--burgundy); color: #fff; border: none;
+      cursor: pointer; transition: background .2s;
+    }
+    .submit-btn:hover { background: var(--burgundy-lt); }
+    .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .change-btn {
+      width: 100%; padding: 0.9rem 1.5rem;
+      font-family: var(--body); font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      background: transparent; color: var(--burgundy);
+      border: 1px solid var(--burgundy-bdr);
+      cursor: pointer; transition: background .2s;
+    }
+    .change-btn:hover { background: var(--burgundy-bg); }
+    .application-form input:read-only { background: var(--parchment); cursor: default; opacity: 0.8; }
+
+    /* ── ЧИСЛА ── */
+    .numbers-band { background: var(--white); border-bottom: 1px solid var(--border); }
+    .numbers-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4,1fr);
+    }
+    .num-cell {
+      padding: 52px 36px; border-right: 1px solid var(--border); position: relative;
+    }
+    .num-cell:last-child { border-right: none; }
+    .num-cell::before {
+      content: attr(data-index); position: absolute; top: 20px; right: 24px;
+      font-family: var(--mono); font-size: 0.55rem; color: var(--ink-faint); letter-spacing: 0.1em;
+    }
+    .num-val {
+      display: block; font-family: var(--display); font-size: 3rem;
+      font-weight: 700; color: var(--burgundy); line-height: 1; margin-bottom: 12px;
+    }
+    .num-desc { font-size: 0.82rem; color: var(--ink-dim); line-height: 1.65; font-weight: 400; }
+
+    /* ── О СИСТЕМЕ ── */
+    .about-section { padding: 100px 5%; background: var(--cream-dark); }
+    .about-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+    }
+    .section-label {
+      font-family: var(--mono); font-size: 0.60rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--burgundy); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::after {
+      content: ''; flex: 1 1 auto; height: 1px; background: var(--burgundy-bdr); max-width: 40px;
+    }
+    .about-left h2 {
+      font-family: var(--display); font-size: clamp(2rem,3vw,3.2rem);
+      font-weight: 600; line-height: 1.15; margin-bottom: 28px;
+    }
+    .about-left h2 em { font-style: italic; font-weight: 400; color: var(--burgundy); }
+    .about-text p { font-size: 0.95rem; color: var(--ink-dim); line-height: 1.9; margin-bottom: 18px; font-weight: 400; }
+    .about-text strong { color: var(--ink); font-weight: 600; }
+    .about-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 28px; }
+    .tag {
+      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 6px 14px;
+      border: 1px solid var(--burgundy-bdr); color: var(--burgundy); background: var(--burgundy-bg);
+    }
+
+    .about-right { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .fact-card {
+      background: var(--white); border: 1px solid var(--border);
+      padding: 26px 22px; transition: box-shadow .2s, transform .2s;
+    }
+    .fact-card:hover { box-shadow: 4px 4px 0 var(--cream-mid); transform: translate(-2px,-2px); }
+    .fact-card:first-child {
+      grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between;
+      background: var(--burgundy); color: #fff; border-color: transparent;
+    }
+    .fact-card:first-child .fact-val { color: #fff; }
+    .fact-card:first-child .fact-desc { color: rgba(255,255,255,.70); }
+    .fact-val {
+      font-family: var(--display); font-size: 2.4rem;
+      font-weight: 700; color: var(--burgundy); line-height: 1; display: block;
+    }
+    .fact-desc {
+      font-family: var(--mono); font-size: 0.62rem;
+      letter-spacing: 0.04em; color: var(--ink-dim); margin-top: 8px; display: block; line-height: 1.5;
+    }
+
+    /* ── КАК ЭТО РАБОТАЕТ ── */
+    .how-section { padding: 100px 5%; background: var(--white); overflow: hidden; }
+    .how-inner { max-width: 1100px; margin: 0 auto; }
+    .how-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 64px; gap: 32px;
+    }
+    .how-header h2 {
+      font-family: var(--display); font-size: clamp(2rem,3vw,3.2rem);
+      font-weight: 600; line-height: 1.15;
+    }
+    .how-header h2 em { font-style: italic; font-weight: 400; color: var(--burgundy); }
+    .how-header p { font-size: 0.9rem; color: var(--ink-dim); max-width: 28ch; text-align: right; font-weight: 400; }
+
+    .timeline {
+      position: relative; display: grid;
+      grid-template-columns: repeat(5,1fr); gap: 0;
+    }
+    .timeline::before {
+      content: ''; position: absolute;
+      top: 24px; left: 24px; right: 24px; height: 1px;
+      background: var(--cream-mid); z-index: 0;
+    }
+    .tl-step { position: relative; z-index: 1; padding: 0 12px; text-align: center; }
+    .tl-dot {
+      width: 48px; height: 48px; background: var(--white);
+      border: 1px solid var(--border-md);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px;
+      font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+      color: var(--ink-dim); transition: all .3s;
+    }
+    .tl-step:hover .tl-dot { border-color: var(--burgundy); background: var(--burgundy); color: #fff; }
+    .tl-step:hover .tl-title { color: var(--burgundy); }
+    .tl-emoji { font-size: 1.2rem; }
+    .tl-title {
+      font-family: var(--body); font-size: 0.87rem; font-weight: 700;
+      color: var(--ink); margin-bottom: 8px; line-height: 1.3;
+      transition: color .3s; letter-spacing: 0.01em;
+    }
+    .tl-desc { font-size: 0.78rem; color: var(--ink-dim); line-height: 1.75; font-weight: 400; }
+    .how-cta { text-align: center; margin-top: 56px; }
+
+    /* ── РЕЗУЛЬТАТЫ ── */
+    .results-section { padding: 100px 5%; background: var(--cream-dark); }
+    .results-inner { max-width: 1100px; margin: 0 auto; }
+    .results-top {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: start; margin-bottom: 52px;
+    }
+    .results-top h2 {
+      font-family: var(--display); font-size: clamp(2rem,3vw,3.2rem);
+      font-weight: 600; line-height: 1.15;
+    }
+    .results-top h2 em { font-style: italic; font-weight: 400; color: var(--burgundy); }
+    .results-top p { font-size: 0.95rem; color: var(--ink-dim); line-height: 1.85; margin-top: 16px; font-weight: 400; }
+
+    .weeks-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 14px; }
+    .week-card {
+      background: var(--white); border: 1px solid var(--border);
+      padding: 24px 18px; text-align: center; position: relative; overflow: hidden;
+      transition: box-shadow .2s;
+    }
+    .week-card:hover { box-shadow: 4px 4px 0 var(--cream-mid); }
+    .week-card.active { border-color: var(--burgundy-bdr); }
+    .week-card.active::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--burgundy);
+    }
+    .wk-label {
+      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-faint); display: block; margin-bottom: 12px;
+    }
+    .wk-balance {
+      font-family: var(--display); font-size: 1.6rem; font-weight: 700;
+      color: var(--ink); display: block; line-height: 1; margin-bottom: 8px;
+    }
+    .wk-growth { font-family: var(--mono); font-size: 0.70rem; color: var(--burgundy); display: block; }
+    .wk-init { font-family: var(--mono); font-size: 0.70rem; color: var(--ink-faint); display: block; }
+    .results-total-bar {
+      background: var(--burgundy); padding: 24px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .rtb-label {
+      font-family: var(--mono); font-size: 0.68rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,.70);
+    }
+    .rtb-val { font-family: var(--display); font-size: 2.4rem; font-weight: 700; color: #fff; }
+
+    /* ── ВИДЕО ── */
+    .video-section { padding: 100px 5%; background: var(--white); }
+    .video-inner { max-width: 1100px; margin: 0 auto; }
+    .video-header { text-align: center; margin-bottom: 52px; }
+    .video-header h2 {
+      font-family: var(--display); font-size: clamp(2rem,3vw,3.2rem);
+      font-weight: 600; line-height: 1.15; margin-bottom: 18px;
+    }
+    .video-header h2 em { font-style: italic; font-weight: 400; color: var(--burgundy); }
+    .video-header p { font-size: 0.95rem; color: var(--ink-dim); line-height: 1.85; max-width: 52ch; margin: 0 auto; font-weight: 400; }
+    .video-wrap {
+      position: relative; background: #000; border: 1px solid var(--border);
+      overflow: hidden; max-width: 860px; margin: 0 auto;
+      box-shadow: 12px 12px 0 var(--cream-mid);
+    }
+    .video-wrap video { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; cursor: pointer; }
+    .video-overlay {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: rgba(20,14,10,.55); cursor: pointer;
+      transition: opacity .3s; z-index: 2;
+    }
+    .video-overlay.hidden { opacity: 0; pointer-events: none; }
+    .vid-play-btn {
+      width: 72px; height: 72px; background: var(--burgundy);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; margin-bottom: 12px;
+    }
+    .vid-play-btn::after {
+      content: ''; border-style: solid;
+      border-width: 11px 0 11px 20px;
+      border-color: transparent transparent transparent #fff; margin-left: 4px;
+    }
+    .video-overlay:hover .vid-play-btn { background: var(--burgundy-lt); transform: scale(1.07); }
+    .vid-overlay-text {
+      font-family: var(--mono); font-size: 0.68rem;
+      color: rgba(255,255,255,.65); letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .vid-controls {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+      padding: 10px 16px 14px;
+      background: linear-gradient(to top, rgba(0,0,0,.85), transparent);
+      display: flex; flex-direction: column; gap: 8px;
+      opacity: 0; transition: opacity .25s;
+    }
+    .video-wrap:hover .vid-controls, .video-wrap.paused .vid-controls { opacity: 1; }
+    .vid-progress { width: 100%; height: 2px; background: rgba(255,255,255,.2); cursor: pointer; position: relative; transition: height .15s; }
+    .vid-progress:hover { height: 4px; }
+    .vid-progress-fill { height: 100%; background: var(--burgundy-lt); pointer-events: none; }
+    .vid-row { display: flex; align-items: center; gap: 12px; }
+    .vid-btn { background: none; border: none; cursor: pointer; padding: 0; color: rgba(255,255,255,.65); display: flex; align-items: center; transition: color .15s; }
+    .vid-btn:hover { color: #fff; }
+    .vid-time { font-family: var(--mono); color: rgba(255,255,255,.45); font-size: 0.68rem; margin-right: auto; }
+    .vid-vol-wrap { display: flex; align-items: center; gap: 6px; }
+    .vid-vol-slider { -webkit-appearance:none; appearance:none; width:60px; height:2px; background:rgba(255,255,255,.2); outline:none; cursor:pointer; }
+    .vid-vol-slider::-webkit-slider-thumb { -webkit-appearance:none; width:10px; height:10px; border-radius:50%; background:var(--burgundy-lt); cursor:pointer; }
+    .video-cta { text-align: center; margin-top: 40px; }
+
+    /* ── ОТЗЫВЫ ── */
+    .testimonials-section { padding: 100px 5%; background: var(--cream-dark); }
+    .testi-inner { max-width: 1100px; margin: 0 auto; }
+    .testi-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 48px; gap: 32px;
+    }
+    .testi-header h2 {
+      font-family: var(--display); font-size: clamp(2rem,3vw,3.2rem);
+      font-weight: 600; line-height: 1.15;
+    }
+    .testi-header h2 em { font-style: italic; font-weight: 400; color: var(--burgundy); }
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .testi-card {
+      background: var(--white); border: 1px solid var(--border); overflow: hidden;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .testi-card:hover { box-shadow: 6px 6px 0 var(--cream-mid); transform: translate(-2px,-2px); }
+    .testi-vid-wrap { position: relative; background: #000; overflow: hidden; cursor: pointer; }
+    .testi-vid-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .tv-overlay {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: rgba(20,14,10,.5); transition: opacity .3s; z-index: 2;
+    }
+    .tv-overlay.hidden { opacity: 0; pointer-events: none; }
+    .tv-play-btn {
+      width: 46px; height: 46px; background: var(--burgundy);
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; margin-bottom: 8px;
+    }
+    .tv-play-btn::after {
+      content: ''; border-style: solid; border-width: 8px 0 8px 14px;
+      border-color: transparent transparent transparent #fff; margin-left: 3px;
+    }
+    .tv-overlay:hover .tv-play-btn { transform: scale(1.08); background: var(--burgundy-lt); }
+    .tv-label {
+      position: absolute; top: 10px; left: 10px;
+      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase;
+      background: rgba(20,14,10,.7); color: rgba(255,255,255,.8); padding: 4px 10px; z-index: 3;
+    }
+    .tv-controls {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+      padding: 6px 10px 8px; background: linear-gradient(to top, rgba(0,0,0,.85), transparent);
+      display: flex; flex-direction: column; gap: 5px; opacity: 0; transition: opacity .25s;
+    }
+    .testi-vid-wrap:hover .tv-controls, .testi-vid-wrap.paused .tv-controls { opacity: 1; }
+    .tv-progress { width: 100%; height: 2px; background: rgba(255,255,255,.2); cursor: pointer; }
+    .tv-progress-fill { height: 100%; background: var(--burgundy-lt); }
+    .tv-row { display: flex; align-items: center; gap: 8px; }
+    .tv-btn { background: none; border: none; cursor: pointer; padding: 0; color: rgba(255,255,255,.65); display: flex; align-items: center; transition: color .15s; }
+    .tv-btn:hover { color: #fff; }
+    .tv-time { font-family: var(--mono); color: rgba(255,255,255,.45); font-size: 0.60rem; margin-left: auto; }
+    .tv-vol-wrap { display: flex; align-items: center; gap: 5px; }
+    .tv-vol-slider { -webkit-appearance:none; appearance:none; width:46px; height:2px; background:rgba(255,255,255,.2); outline:none; cursor:pointer; }
+    .tv-vol-slider::-webkit-slider-thumb { -webkit-appearance:none; width:8px; height:8px; border-radius:50%; background:var(--burgundy-lt); cursor:pointer; }
+    .testi-body { padding: 24px 22px; }
+    .testi-stars { color: #c8960c; font-size: 0.82rem; letter-spacing: 2px; margin-bottom: 12px; }
+    .testi-quote { font-family: var(--display); font-size: 1rem; color: var(--ink-dim); line-height: 1.75; margin-bottom: 18px; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: var(--burgundy-bg); border: 1px solid var(--burgundy-bdr);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 0.62rem; color: var(--burgundy); font-weight: 700;
+    }
+    .testi-name { font-weight: 700; font-size: 0.85rem; color: var(--ink); letter-spacing: 0.02em; }
+    .testi-loc { font-family: var(--mono); font-size: 0.60rem; color: var(--ink-faint); margin-top: 3px; }
+
+    /* ── СЧЁТЧИКИ ── */
+    .counters-section { background: var(--ink); padding: 72px 5%; }
+    .counters-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3,1fr);
+    }
+    .cnt-cell { padding: 0 48px; border-right: 1px solid rgba(255,255,255,.10); text-align: center; }
+    .cnt-cell:last-child { border-right: none; }
+    .cnt-val { font-family: var(--display); font-size: 4rem; font-weight: 700; color: #fff; line-height: 1; display: block; margin-bottom: 10px; }
+    .cnt-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,.50); }
+    .cnt-bar { width: 60px; height: 1px; background: rgba(255,255,255,.15); margin: 14px auto 0; position: relative; }
+    .cnt-bar-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--burgundy-lt); }
+
+    /* ── ФИНАЛЬНЫЙ CTA ── */
+    .final-cta {
+      padding: 120px 5%; background: var(--cream); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .final-cta::before {
+      content: 'AIMS'; position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      font-family: var(--display); font-size: 22rem; font-weight: 700;
+      color: transparent; -webkit-text-stroke: 1px var(--cream-mid);
+      pointer-events: none; user-select: none; white-space: nowrap; letter-spacing: -0.04em;
+    }
+    .final-cta-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+    .cta-urgency {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--mono); font-size: 0.60rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: #b91c1c; padding: 6px 16px;
+      border: 1px solid rgba(185,28,28,.28); background: rgba(185,28,28,.05);
+      margin-bottom: 32px;
+    }
+    .cta-urgency::before {
+      content: ''; width: 6px; height: 6px; background: #b91c1c; border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    .final-cta h2 {
+      font-family: var(--display); font-size: clamp(2.4rem,4vw,4rem);
+      font-weight: 600; line-height: 1.1; margin-bottom: 20px;
+    }
+    .final-cta h2 em { font-style: italic; font-weight: 400; color: var(--burgundy); }
+    .final-cta p { font-size: 1rem; color: var(--ink-dim); line-height: 1.85; max-width: 46ch; margin: 0 auto 44px; font-weight: 400; }
+    .btn-cta-big {
+      display: inline-flex; align-items: center; gap: 14px;
+      font-family: var(--body); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      padding: 20px 52px; background: var(--burgundy); color: #fff;
+      text-decoration: none; transition: all .25s;
+    }
+    .btn-cta-big:hover { background: var(--burgundy-lt); transform: translateY(-2px); box-shadow: 8px 8px 0 var(--cream-mid); }
+    .btn-cta-big svg { transition: transform .2s; }
+    .btn-cta-big:hover svg { transform: translateX(5px); }
+    .cta-note { font-family: var(--mono); font-size: 0.60rem; color: var(--ink-faint); letter-spacing: 0.07em; margin-top: 18px; }
+    .cta-perks {
+      display: flex; justify-content: center; gap: 28px; flex-wrap: wrap;
+      margin-top: 44px; padding-top: 40px; border-top: 1px solid var(--border);
+    }
+    .perk { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 0.63rem; color: var(--ink-dim); letter-spacing: 0.04em; }
+    .perk::before { content: '—'; color: var(--burgundy); font-weight: 700; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--ink); padding: 40px 5%; }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .footer-logo { display: block; width: 90px; }
+    .footer-logo img { width: 100%; display: block; opacity: 0.5; filter: brightness(10); }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a {
+      font-family: var(--mono); font-size: 0.60rem;
+      color: rgba(255,255,255,.40); text-decoration: none; letter-spacing: 0.06em; transition: color .2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,.80); }
+    .footer-bottom {
+      max-width: 1100px; margin: 20px auto 0; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      font-family: var(--mono); font-size: 0.56rem; color: rgba(255,255,255,.28); letter-spacing: 0.04em;
+    }
+
+    /* ── МОДАЛЬНОЕ ОКНО ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200; background: rgba(26,20,16,.65);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem; opacity: 0; visibility: hidden;
+      transition: opacity .3s, visibility .3s;
+    }
+    .modal-overlay.is-open { opacity: 1; visibility: visible; }
+    .modal {
+      background: var(--white); border: 1px solid var(--border);
+      padding: 2.5rem; max-width: 400px; width: 100%;
+      box-shadow: 12px 12px 0 var(--cream-mid);
+    }
+    .modal-title { font-family: var(--display); font-size: 1.7rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--ink); }
+    .modal-text { font-size: 0.95rem; color: var(--ink-dim); line-height: 1.6; margin-bottom: 1.75rem; font-weight: 400; }
+    .modal-close-btn {
+      width: 100%; padding: 0.95rem 1.5rem;
+      font-family: var(--body); font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      background: var(--burgundy); color: #fff; border: none;
+      cursor: pointer; transition: background .2s;
+    }
+    .modal-close-btn:hover { background: var(--burgundy-lt); }
+
+    /* ── АНИМАЦИИ ── */
+    .fade-up, .fade-left, .fade-right { opacity: 0; will-change: opacity, transform; }
+    .fade-up    { transform: translateY(24px); transition: opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1); }
+    .fade-left  { transform: translateX(-24px); transition: opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1); }
+    .fade-right { transform: translateX(24px); transition: opacity .65s cubic-bezier(.22,1,.36,1), transform .65s cubic-bezier(.22,1,.36,1); }
+    .fade-up.on, .fade-left.on, .fade-right.on { opacity: 1; transform: translate(0,0); }
+
+    /* Hero-анимации для левой и правой колонки */
+    .hero-left > * { opacity: 0; transform: translateY(18px); animation: heroIn .75s cubic-bezier(.22,1,.36,1) forwards; }
+    .hero-left > *:nth-child(1){animation-delay:.05s}
+    .hero-left > *:nth-child(2){animation-delay:.18s}
+    .hero-left > *:nth-child(3){animation-delay:.30s}
+    .hero-left > *:nth-child(4){animation-delay:.42s}
+    .hero-left > *:nth-child(5){animation-delay:.54s}
+    .hero-right > * { opacity: 0; transform: translateX(18px); animation: heroInR .75s cubic-bezier(.22,1,.36,1) forwards; }
+    .hero-right > *:nth-child(1){animation-delay:.12s}
+    .hero-right > *:nth-child(2){animation-delay:.28s}
+    .hero-right > *:nth-child(3){animation-delay:.44s}
+    .hero-right > *:nth-child(4){animation-delay:.58s}
+    @keyframes heroIn  { to { opacity:1; transform:translateY(0); } }
+    @keyframes heroInR { to { opacity:1; transform:translateX(0); } }
+
+    .tl-step:nth-child(1){transition-delay:.04s} .tl-step:nth-child(2){transition-delay:.10s}
+    .tl-step:nth-child(3){transition-delay:.16s} .tl-step:nth-child(4){transition-delay:.22s}
+    .tl-step:nth-child(5){transition-delay:.28s}
+    .testi-card:nth-child(1){transition-delay:.04s} .testi-card:nth-child(2){transition-delay:.14s}
+    .testi-card:nth-child(3){transition-delay:.24s}
+    .cnt-cell:nth-child(1){transition-delay:.04s} .cnt-cell:nth-child(2){transition-delay:.14s}
+    .cnt-cell:nth-child(3){transition-delay:.24s}
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { border-right: none; border-bottom: 1px solid var(--border); }
+      .hero-right { min-height: auto; }
+      .hero-deco-num { display: none; }
+      .timeline { grid-template-columns: 1fr; gap: 32px; }
+      .timeline::before { display: none; }
+      .tl-dot { margin: 0 auto 14px; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .apply-inner { grid-template-columns: 1fr; }
+      .about-inner { grid-template-columns: 1fr; }
+      .numbers-inner { grid-template-columns: repeat(2,1fr); }
+      .num-cell:nth-child(2) { border-right: none; }
+      .results-top { grid-template-columns: 1fr; gap: 24px; }
+      .weeks-grid { grid-template-columns: repeat(2,1fr); }
+      .counters-inner { grid-template-columns: 1fr; gap: 36px; }
+      .cnt-cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,.10); padding-bottom: 36px; }
+      .cnt-cell:last-child { border-bottom: none; }
+    }
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .h-stat { flex-direction: column; gap: 4px; }
+      .h-stat-lbl { text-align: left; }
+      .how-header { flex-direction: column; }
+      .how-header p { text-align: left; max-width: 100%; }
+      .testi-header { flex-direction: column; }
+      .numbers-inner { grid-template-columns: 1fr; }
+      .num-cell { border-right: none; border-bottom: 1px solid var(--border); }
+      .cta-perks { gap: 16px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .final-cta::before { font-size: 10rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-logo" href="#">
+    <img src="logo.png" alt="AIMS Logo">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#video">Video</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#testimonials">Stories</a></li>
+  </ul>
+  <a class="nav-cta" href="#request-form">Leave a Request</a>
+</nav>
+
+<!-- ── HERO — split layout ── -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-badge">AI-Powered Trading · Est. 2022</div>
+    <h1>Become<br>Financially Free<br>in <em>30 Days</em><br>with AI Melissa</h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">
+      Earn from <strong>$500 per day</strong> using an advanced AI-powered trading system.
+      Over 1,000 Canadians are already generating consistent income — no experience needed.
+    </p>
+    <div class="hero-buttons">
+      <a class="btn-primary" href="#request-form">Submit a Free Request</a>
+      <a class="btn-outline" href="#how">See How It Works</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <p class="hero-right-label">Platform Overview</p>
+    <div class="hero-stats">
+      <div class="h-stat">
+        <span class="h-stat-val">1,000+</span>
+        <span class="h-stat-lbl">Canadians Participating</span>
+      </div>
+      <div class="h-stat">
+        <span class="h-stat-val">$500</span>
+        <span class="h-stat-lbl">Average Daily Earnings</span>
+      </div>
+      <div class="h-stat">
+        <span class="h-stat-val">OSC</span>
+        <span class="h-stat-lbl">Registered Advisor</span>
+      </div>
+    </div>
+    <div class="hero-buttons">
+      <a class="btn-primary" href="#request-form">Submit a Free Request</a>
+      <a class="btn-outline" href="#how">See How It Works</a>
+    </div>
+    <div class="hero-deco-num">30</div>
+  </div>
+</section>
+
+<!-- ── ТИКЕР ── -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">AIMS · AI-Powered <span>·</span></span>
+    <span class="ticker-item">1,000+ Trades per minute <span>·</span></span>
+    <span class="ticker-item">$44M Generated in 2025 <span>·</span></span>
+    <span class="ticker-item">OSC Registered &amp; Regulated <span>·</span></span>
+    <span class="ticker-item">Forbes Top Trader 2023 <span>·</span></span>
+    <span class="ticker-item">$3M R&amp;D Investment <span>·</span></span>
+    <span class="ticker-item">24/7 Global Market Analysis <span>·</span></span>
+    <span class="ticker-item">AIMS · AI-Powered <span>·</span></span>
+    <span class="ticker-item">1,000+ Trades per minute <span>·</span></span>
+    <span class="ticker-item">$44M Generated in 2025 <span>·</span></span>
+    <span class="ticker-item">OSC Registered &amp; Regulated <span>·</span></span>
+    <span class="ticker-item">Forbes Top Trader 2023 <span>·</span></span>
+    <span class="ticker-item">$3M R&amp;D Investment <span>·</span></span>
+    <span class="ticker-item">24/7 Global Market Analysis <span>·</span></span>
+  </div>
+</div>
+
+<!-- ── ФОРМА ЗАЯВКИ ── -->
+<section class="apply-section" id="request-form">
+  <div class="apply-inner">
+    <div class="apply-left fade-left">
+      <p class="apply-kicker">Apply Now</p>
+      <h2>Leave your <em>contact details</em></h2>
+      <p>Name, email, and phone — a personal manager will reach out within 24 hours. No spam, no obligation.</p>
+      <div class="apply-trust">
+        <div class="apply-trust-item">Free to Apply — Zero Obligations</div>
+        <div class="apply-trust-item">Personal Manager Assigned Within 24h</div>
+        <div class="apply-trust-item">OSC Registered &amp; Regulated Platform</div>
+        <div class="apply-trust-item">No Prior Experience Required</div>
+      </div>
+    </div>
+    <div class="apply-card fade-right">
+      <p class="apply-card-title">Submit Your Request</p>
+      <form class="application-form" id="applicationForm" autocomplete="on">
+        <div class="form-group">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" name="fullName" required placeholder="Your name" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="your@email.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="phone" id="phone-label">Phone</label>
+          <div class="phone-field-wrap" role="group" aria-labelledby="phone-label">
+            <span class="phone-prefix" aria-hidden="true">+1</span>
+            <input type="tel" id="phone" name="phone" required class="phone-input" maxlength="14" inputmode="numeric" autocomplete="tel-national" placeholder="(555) 123-4567" data-phone-mask="ca">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+          <button type="button" class="change-btn" id="changeBtn" style="display: none;">Change data</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── ЧИСЛА ── -->
+<div class="numbers-band">
+  <div class="numbers-inner">
+    <div class="num-cell fade-up" data-index="01">
+      <span class="num-val">$44M</span>
+      <span class="num-desc">Generated by Melissa and partners in 2025 using the AIMS system</span>
+    </div>
+    <div class="num-cell fade-up" data-index="02">
+      <span class="num-val">1,000+</span>
+      <span class="num-desc">Low-risk trades executed per minute across all global exchanges</span>
+    </div>
+    <div class="num-cell fade-up" data-index="03">
+      <span class="num-val">24/7</span>
+      <span class="num-desc">Real-time global analysis of markets, news and political events</span>
+    </div>
+    <div class="num-cell fade-up" data-index="04">
+      <span class="num-val">$3M</span>
+      <span class="num-desc">Invested in research and development of the AIMS algorithm</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── О СИСТЕМЕ ── -->
+<section class="about-section" id="about">
+  <div class="about-inner">
+    <div class="about-left fade-left">
+      <p class="section-label">About AIMS</p>
+      <h2>The <em>Artificial Intelligence</em> Melissa System</h2>
+      <div class="about-text">
+        <p>Melissa Brown was recognized by Forbes as the highest-earning trader of 2023. Together with Mark Eddisson — a lead OpenAI engineer — they invested $3 million developing one of the most advanced AI systems for financial markets.</p>
+        <p>AIMS analyzes the global landscape in real time, including financial markets, economic news, political events, and trading charts across all major global exchanges.</p>
+        <p>Based on this information, AIMS executes over <strong>1,000 low-risk trades per minute</strong>, allowing it to diversify exposure and generate maximum profit. Using this system, Melissa and her partners generated <strong>$44 million in 2025</strong>.</p>
+      </div>
+      <div class="about-tags">
+        <span class="tag">OSC Registered</span>
+        <span class="tag">AI-Powered</span>
+        <span class="tag">Low Risk</span>
+        <span class="tag">24/7 Active</span>
+        <span class="tag">1,000+ Trades/min</span>
+      </div>
+    </div>
+    <div class="about-right fade-right">
+      <div class="fact-card">
+        <div>
+          <span class="fact-val">$44M</span>
+          <span class="fact-desc">Total generated in 2025</span>
+        </div>
+        <div style="text-align:right;">
+          <span style="font-family:var(--mono);font-size:0.62rem;color:rgba(255,255,255,.65)">Melissa Brown &amp; partners</span>
+        </div>
+      </div>
+      <div class="fact-card">
+        <span class="fact-val">$3M</span>
+        <span class="fact-desc">R&amp;D investment in the algorithm</span>
+      </div>
+      <div class="fact-card">
+        <span class="fact-val">1,000+</span>
+        <span class="fact-desc">Trades executed per minute</span>
+      </div>
+      <div class="fact-card">
+        <span class="fact-val">#1</span>
+        <span class="fact-desc">Forbes Top Trader 2023</span>
+      </div>
+      <div class="fact-card" style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;background:var(--cream-dark);">
+        <span class="fact-desc" style="margin:0;">OSC Registered &amp; Regulated Platform</span>
+        <span style="font-family:var(--mono);font-size:0.68rem;color:var(--burgundy);font-weight:600;">VERIFIED ✓</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── КАК ЭТО РАБОТАЕТ ── -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="how-header">
+      <div class="fade-left">
+        <p class="section-label">How It Works</p>
+        <h2>Five Steps to Your <em>First Profit</em></h2>
+      </div>
+      <p class="fade-right">From zero to generating daily income — the complete path in 5 simple steps.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-step fade-up">
+        <div class="tl-dot"><span class="tl-emoji">📋</span></div>
+        <div class="tl-title">Submit a Free Request</div>
+        <div class="tl-desc">Fill out a brief form — no documents, no experience required. Takes under 60 seconds.</div>
+      </div>
+      <div class="tl-step fade-up">
+        <div class="tl-dot"><span class="tl-emoji">👤</span></div>
+        <div class="tl-title">Manager Contacts You</div>
+        <div class="tl-desc">A dedicated personal investment manager reaches out within 24 hours to guide your onboarding.</div>
+      </div>
+      <div class="tl-step fade-up">
+        <div class="tl-dot"><span class="tl-emoji">🤖</span></div>
+        <div class="tl-title">Get Access to AIMS Platform</div>
+        <div class="tl-desc">Your manager provides full access to the AIMS trading system and walks you through every feature.</div>
+      </div>
+      <div class="tl-step fade-up">
+        <div class="tl-dot"><span class="tl-emoji">💬</span></div>
+        <div class="tl-title">Review the Activation Plan</div>
+        <div class="tl-desc">Your manager reviews the activation cost with you — depends on your location and individual situation.</div>
+      </div>
+      <div class="tl-step fade-up">
+        <div class="tl-dot"><span class="tl-emoji">📈</span></div>
+        <div class="tl-title">Activate &amp; Watch Profit Grow</div>
+        <div class="tl-desc">Activate the platform and monitor your profit growth. Your manager stays with you every step.</div>
+      </div>
+    </div>
+    <div class="how-cta fade-up">
+      <a class="btn-primary" href="#request-form">Request a Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── РЕЗУЛЬТАТЫ ── -->
+<section class="results-section" id="results">
+  <div class="results-inner">
+    <div class="results-top">
+      <div class="fade-left">
+        <p class="section-label">AIMS in Action</p>
+        <h2>Real Results, <em>Real Numbers</em></h2>
+        <p>Activated AIMS with $500. This is what your balance looks like over 4 weeks of fully automated AI trading — zero manual intervention needed.</p>
+      </div>
+      <div class="fade-right" style="align-self:center;">
+        <a class="btn-primary" href="#request-form">Request a Consultation</a>
+      </div>
+    </div>
+    <div class="weeks-grid fade-up">
+      <div class="week-card">
+        <span class="wk-label">Week 1</span>
+        <span class="wk-balance">$500</span>
+        <span class="wk-init">Activated</span>
+      </div>
+      <div class="week-card active">
+        <span class="wk-label">Week 2</span>
+        <span class="wk-balance">$7,500</span>
+        <span class="wk-growth">+$4,000</span>
+      </div>
+      <div class="week-card active">
+        <span class="wk-label">Week 3</span>
+        <span class="wk-balance">$10,100</span>
+        <span class="wk-growth">+$2,600</span>
+      </div>
+      <div class="week-card active">
+        <span class="wk-label">Week 4</span>
+        <span class="wk-balance">$14,500</span>
+        <span class="wk-growth">+$4,400</span>
+      </div>
+    </div>
+    <div class="results-total-bar fade-up">
+      <span class="rtb-label">Net Profit Available</span>
+      <span class="rtb-val">$14,500</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── ВИДЕО ── -->
+<section class="video-section" id="video">
+  <div class="video-inner">
+    <div class="video-header fade-up">
+      <p class="section-label" style="justify-content:center;">Inside AIMS</p>
+      <h2>Why AIMS Participants Move to a <em>New Financial Level</em></h2>
+      <p>This video has the potential to change your life. Watch how ordinary Canadians use AI to generate consistent daily income — completely automated.</p>
+    </div>
+    <div class="video-wrap paused fade-up" id="videoWrap">
+      <video id="aimsVideo" preload="metadata" playsinline>
+        <source src="https://aims.finance/main-video.mp4" type="video/mp4" />
+      </video>
+      <div class="video-overlay" id="videoOverlay">
+        <div class="vid-play-btn"></div>
+        <span class="vid-overlay-text">Play Video</span>
+      </div>
+      <div class="vid-controls">
+        <div class="vid-progress" id="vidProgress">
+          <div class="vid-progress-fill" id="vidFill" style="width:0%"></div>
+        </div>
+        <div class="vid-row">
+          <button class="vid-btn" id="vidPlayBtn">
+            <svg id="iconPlay" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            <svg id="iconPause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <span class="vid-time" id="vidTime">0:00 / 0:00</span>
+          <div class="vid-vol-wrap">
+            <button class="vid-btn" id="vidMute">
+              <svg id="iconVol" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <svg id="iconMute" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            </button>
+            <input type="range" class="vid-vol-slider" id="vidVol" min="0" max="1" step="0.05" value="1" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="video-cta fade-up">
+      <a class="btn-primary" href="#request-form">Submit a Free Request</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ОТЗЫВЫ ── -->
+<section class="testimonials-section" id="testimonials">
+  <div class="testi-inner">
+    <div class="testi-header">
+      <div class="fade-left">
+        <p class="section-label">Client Stories</p>
+        <h2>Stories From <em>Our Clients</em></h2>
+      </div>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-up">
+        <div class="testi-vid-wrap paused" data-tv="0">
+          <video preload="metadata" playsinline><source src="user1.mp4?v=1" type="video/mp4" /></video>
+          <div class="tv-overlay"><div class="tv-play-btn"></div></div>
+          <span class="tv-label">Client Story · 01</span>
+          <div class="tv-controls">
+            <div class="tv-progress"><div class="tv-progress-fill" style="width:0%"></div></div>
+            <div class="tv-row">
+              <button class="tv-btn tv-toggle">
+                <svg class="ic-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                <svg class="ic-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              </button>
+              <span class="tv-time">0:00 / 0:00</span>
+              <div class="tv-vol-wrap">
+                <button class="tv-btn tv-mute">
+                  <svg class="ic-vol" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  <svg class="ic-mute" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                </button>
+                <input type="range" class="tv-vol-slider" min="0" max="1" step="0.05" value="1" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-body">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">"After my first week I had already made more than my monthly salary. AIMS completely changed everything for my family."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">OJ</div>
+            <div><div class="testi-name">Olivia J.</div><div class="testi-loc">Toronto, Ontario · $12,400 earned</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up">
+        <div class="testi-vid-wrap paused" data-tv="1">
+          <video preload="metadata" playsinline><source src="user2.mp4?v=1" type="video/mp4" /></video>
+          <div class="tv-overlay"><div class="tv-play-btn"></div></div>
+          <span class="tv-label">Client Story · 02</span>
+          <div class="tv-controls">
+            <div class="tv-progress"><div class="tv-progress-fill" style="width:0%"></div></div>
+            <div class="tv-row">
+              <button class="tv-btn tv-toggle">
+                <svg class="ic-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                <svg class="ic-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              </button>
+              <span class="tv-time">0:00 / 0:00</span>
+              <div class="tv-vol-wrap">
+                <button class="tv-btn tv-mute">
+                  <svg class="ic-vol" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  <svg class="ic-mute" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                </button>
+                <input type="range" class="tv-vol-slider" min="0" max="1" step="0.05" value="1" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-body">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">"I knew nothing about trading. My manager walked me through everything and now I earn $500 a day on autopilot."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">SK</div>
+            <div><div class="testi-name">Sarah K.</div><div class="testi-loc">Vancouver, BC · $9,800 earned</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-up">
+        <div class="testi-vid-wrap paused" data-tv="2">
+          <video preload="metadata" playsinline><source src="user3.mp4?v=1" type="video/mp4" /></video>
+          <div class="tv-overlay"><div class="tv-play-btn"></div></div>
+          <span class="tv-label">Client Story · 03</span>
+          <div class="tv-controls">
+            <div class="tv-progress"><div class="tv-progress-fill" style="width:0%"></div></div>
+            <div class="tv-row">
+              <button class="tv-btn tv-toggle">
+                <svg class="ic-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                <svg class="ic-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              </button>
+              <span class="tv-time">0:00 / 0:00</span>
+              <div class="tv-vol-wrap">
+                <button class="tv-btn tv-mute">
+                  <svg class="ic-vol" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  <svg class="ic-mute" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                </button>
+                <input type="range" class="tv-vol-slider" min="0" max="1" step="0.05" value="1" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-body">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">"After retiring I needed passive income. AIMS gave me financial security — I now earn more than when I was working."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">RP</div>
+            <div><div class="testi-name">Robert P.</div><div class="testi-loc">Calgary, AB · $18,200 earned</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── СЧЁТЧИКИ ── -->
+<div class="counters-section" id="stats">
+  <div class="counters-inner">
+    <div class="cnt-cell fade-up">
+      <span class="cnt-val"><span class="counter" data-target="1254">0</span></span>
+      <span class="cnt-label">Program Participants Today</span>
+      <div class="cnt-bar"><div class="cnt-bar-fill" style="width:63%"></div></div>
+    </div>
+    <div class="cnt-cell fade-up">
+      <span class="cnt-val"><span class="counter" data-target="2000">0</span></span>
+      <span class="cnt-label">Available Spots for 2026</span>
+      <div class="cnt-bar"><div class="cnt-bar-fill" style="width:100%"></div></div>
+    </div>
+    <div class="cnt-cell fade-up">
+      <span class="cnt-val"><span class="counter" data-target="746">0</span></span>
+      <span class="cnt-label">Spots Remaining</span>
+      <div class="cnt-bar"><div class="cnt-bar-fill" style="width:37%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── ФИНАЛЬНЫЙ CTA ── -->
+<section class="final-cta" id="cta">
+  <div class="final-cta-inner fade-up">
+    <div class="cta-urgency">Only 746 spots remaining for 2026</div>
+    <h2>Reserve My Spot <em>Now for Free</em></h2>
+    <p>Every day, more people are securing their place. Don't wait until it's too late — reserve your spot today and a personal manager will contact you within 24 hours.</p>
+    <a class="btn-cta-big" href="#request-form">
+      Reserve My Spot — It's Free
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <p class="cta-note">No spam · No obligations · 100% Free to apply</p>
+    <div class="cta-perks">
+      <div class="perk">Free to Apply</div>
+      <div class="perk">No Prior Experience Needed</div>
+      <div class="perk">OSC Registered &amp; Regulated</div>
+      <div class="perk">Personal Manager Assigned</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <a class="footer-logo" href="#"><img src="logo.png" alt="AIMS Logo"></a>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#how">How It Works</a>
+      <a href="#results">Results</a>
+      <a href="#testimonials">Stories</a>
+      <a href="#request-form">Apply</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Risk Disclosure</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AIMS — Artificial Intelligence Melissa System. All rights reserved.</span>
+    <span>Risk Disclosure: Trading involves risk. Past performance is not indicative of future results.</span>
+  </div>
+</footer>
+
+<!-- ── МОДАЛЬНОЕ ОКНО ── -->
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 class="modal-title" id="modalTitle">Success</h3>
+    <p class="modal-text">Application submitted successfully. Thank you!</p>
+    <button type="button" class="modal-close-btn" id="modalCloseBtn">OK</button>
+  </div>
+</div>
+
+<script>
+  /* ── Анимация появления при скролле ── */
+  const scrollObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('on'); scrollObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up,.fade-left,.fade-right').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight - 40) el.classList.add('on');
+    else scrollObs.observe(el);
+  });
+
+  /* ── Анимированные счётчики ── */
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const target = +e.target.dataset.target;
+      let current = 0;
+      const step = Math.ceil(target / 60);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        e.target.textContent = current.toLocaleString();
+        if (current >= target) clearInterval(timer);
+      }, 24);
+      counterObs.unobserve(e.target);
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+</script>
+
+<script>
+  /* ── Главное видео ── */
+  (function() {
+    const wrap    = document.getElementById('videoWrap');
+    const video   = document.getElementById('aimsVideo');
+    const overlay = document.getElementById('videoOverlay');
+    const playBtn = document.getElementById('vidPlayBtn');
+    const iconPlay  = document.getElementById('iconPlay');
+    const iconPause = document.getElementById('iconPause');
+    const fill    = document.getElementById('vidFill');
+    const progress = document.getElementById('vidProgress');
+    const timeEl  = document.getElementById('vidTime');
+    const muteBtn = document.getElementById('vidMute');
+    const iconVol  = document.getElementById('iconVol');
+    const iconMute = document.getElementById('iconMute');
+    const volSlider = document.getElementById('vidVol');
+
+    function fmt(s) { const m=Math.floor(s/60),sec=Math.floor(s%60); return m+':'+(sec<10?'0':'')+sec; }
+    function updatePlayState(playing) {
+      wrap.classList.toggle('paused', !playing);
+      iconPlay.style.display  = playing ? 'none' : '';
+      iconPause.style.display = playing ? ''     : 'none';
+    }
+    overlay.addEventListener('click', () => { video.play(); overlay.classList.add('hidden'); updatePlayState(true); });
+    playBtn.addEventListener('click', () => { video.paused ? video.play() : video.pause(); });
+    video.addEventListener('play',  () => updatePlayState(true));
+    video.addEventListener('pause', () => updatePlayState(false));
+    video.addEventListener('ended', () => { overlay.classList.remove('hidden'); updatePlayState(false); });
+    video.addEventListener('timeupdate', () => {
+      if (!video.duration) return;
+      fill.style.width = (video.currentTime / video.duration * 100) + '%';
+      timeEl.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
+    });
+    video.addEventListener('loadedmetadata', () => { timeEl.textContent = '0:00 / ' + fmt(video.duration); });
+    progress.addEventListener('click', e => {
+      const rect = progress.getBoundingClientRect();
+      video.currentTime = ((e.clientX - rect.left) / rect.width) * video.duration;
+    });
+    muteBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      iconVol.style.display  = video.muted ? 'none' : '';
+      iconMute.style.display = video.muted ? ''     : 'none';
+    });
+    volSlider.addEventListener('input', () => { video.volume = +volSlider.value; });
+  })();
+
+  /* ── Видео-отзывы ── */
+  document.querySelectorAll('.testi-vid-wrap').forEach(wrap => {
+    const video   = wrap.querySelector('video');
+    const overlay = wrap.querySelector('.tv-overlay');
+    const toggle  = wrap.querySelector('.tv-toggle');
+    const icPlay  = wrap.querySelector('.ic-play');
+    const icPause = wrap.querySelector('.ic-pause');
+    const progFill = wrap.querySelector('.tv-progress-fill');
+    const progBar  = wrap.querySelector('.tv-progress');
+    const timeEl   = wrap.querySelector('.tv-time');
+    const muteBtn  = wrap.querySelector('.tv-mute');
+    const icVol    = wrap.querySelector('.ic-vol');
+    const icMute   = wrap.querySelector('.ic-mute');
+    const volSl    = wrap.querySelector('.tv-vol-slider');
+
+    function fmt(s) { const m=Math.floor(s/60),sec=Math.floor(s%60); return m+':'+(sec<10?'0':'')+sec; }
+    function updateState(playing) {
+      wrap.classList.toggle('paused', !playing);
+      icPlay.style.display  = playing ? 'none' : '';
+      icPause.style.display = playing ? ''     : 'none';
+    }
+    overlay.addEventListener('click', () => { video.play(); overlay.classList.add('hidden'); updateState(true); });
+    toggle.addEventListener('click', () => { video.paused ? video.play() : video.pause(); });
+    video.addEventListener('play',  () => updateState(true));
+    video.addEventListener('pause', () => updateState(false));
+    video.addEventListener('ended', () => { overlay.classList.remove('hidden'); updateState(false); });
+    video.addEventListener('timeupdate', () => {
+      if (!video.duration) return;
+      progFill.style.width = (video.currentTime / video.duration * 100) + '%';
+      timeEl.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
+    });
+    video.addEventListener('loadedmetadata', () => { timeEl.textContent = '0:00 / ' + fmt(video.duration); });
+    progBar.addEventListener('click', e => {
+      const r = progBar.getBoundingClientRect();
+      video.currentTime = ((e.clientX - r.left) / r.width) * video.duration;
+    });
+    muteBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      icVol.style.display  = video.muted ? 'none' : '';
+      icMute.style.display = video.muted ? ''     : 'none';
+    });
+    if (volSl) volSl.addEventListener('input', () => { video.volume = +volSl.value; });
+  });
+</script>
+
+<script>
+  /* ── Форма — маска телефона + submit + куки ── */
+  (function() {
+    const API_URL     = 'https://aims.finance/api/register';
+    const COOKIE_NAME = 'aims_app_v1';
+    const COOKIE_DAYS = 180;
+
+    function extractDigits(s) { return (s || '').replace(/\D/g, ''); }
+    function normalizeLocalDigits(d) {
+      if (d.length > 10) {
+        if (d.startsWith('1') && d.length === 11) d = d.slice(1);
+        else d = d.slice(0, 10);
+      }
+      return d;
+    }
+    function formatLocalPart(d) {
+      d = d.slice(0, 10);
+      if (d.length <= 3)  return d.length ? '(' + d : '';
+      if (d.length <= 6)  return '(' + d.slice(0,3) + ') ' + d.slice(3);
+      return '(' + d.slice(0,3) + ') ' + d.slice(3,6) + '-' + d.slice(6);
+    }
+    function caretAfterDigitCount(formatted, n) {
+      let count = 0;
+      for (let i = 0; i < formatted.length; i++) {
+        if (/\d/.test(formatted[i])) { count++; if (count === n) return i + 1; }
+      }
+      return formatted.length;
+    }
+    function digitsFromAnyPhoneString(s) {
+      const d = extractDigits(s);
+      return d.startsWith('1') && d.length === 11 ? d.slice(1) : d.slice(0, 10);
+    }
+    function getPhoneDigitsForSubmit(el) {
+      const d = normalizeLocalDigits(extractDigits(el.value));
+      return d.length === 10 ? '1' + d : '';
+    }
+    function splitFullName(full) {
+      const parts = full.trim().split(/\s+/);
+      return { firstName: parts[0] || '', lastName: parts.slice(1).join(' ') || '' };
+    }
+    function initPhoneMask() {
+      const phone = document.getElementById('phone');
+      if (!phone) return;
+      phone.addEventListener('input', function() {
+        const sel = this.selectionStart;
+        const digitBefore = extractDigits(this.value.slice(0, sel)).length;
+        const digits = normalizeLocalDigits(extractDigits(this.value));
+        const formatted = formatLocalPart(digits);
+        this.value = formatted;
+        const pos = caretAfterDigitCount(formatted, Math.min(digitBefore, digits.length));
+        requestAnimationFrame(() => this.setSelectionRange(pos, pos));
+      });
+      phone.addEventListener('keydown', function(e) {
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        const allowed = ['Backspace','Delete','Tab','Enter','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'];
+        if (allowed.includes(e.key)) return;
+        if (e.key.length === 1 && /\d/.test(e.key)) return;
+        if (e.key.length !== 1) return;
+        e.preventDefault();
+      });
+      phone.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text') || '';
+        const digits = normalizeLocalDigits(extractDigits(text));
+        this.value = formatLocalPart(digits);
+        const pos = caretAfterDigitCount(this.value, digits.length);
+        requestAnimationFrame(() => this.setSelectionRange(pos, pos));
+      });
+    }
+
+    function setCookie(name, value, days) {
+      const exp = new Date();
+      exp.setTime(exp.getTime() + days * 86400000);
+      document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + exp.toUTCString() + ';path=/';
+    }
+    function getCookie(name) {
+      const m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+      return m ? decodeURIComponent(m[2]) : null;
+    }
+    function getStoredData() {
+      const raw = getCookie(COOKIE_NAME);
+      if (!raw) return null;
+      try { return JSON.parse(raw); } catch { return null; }
+    }
+    function saveData(firstName, lastName, email, phone) {
+      setCookie(COOKIE_NAME, JSON.stringify({ firstName, lastName, email, phone, submitted: true }), COOKIE_DAYS);
+    }
+
+    function showModal(title, text) {
+      const overlay = document.getElementById('modalOverlay');
+      document.getElementById('modalTitle').textContent = title;
+      document.querySelector('.modal-text').textContent = text;
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      const overlay = document.getElementById('modalOverlay');
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function showSubmittedState(data) {
+      const nameEl  = document.getElementById('fullName');
+      const emailEl = document.getElementById('email');
+      const phoneEl = document.getElementById('phone');
+      const submitBtn = document.getElementById('submitBtn');
+      const changeBtn = document.getElementById('changeBtn');
+      if (nameEl)  { const ln = data.lastName && data.lastName !== '-' ? data.lastName : ''; nameEl.value = [data.firstName, ln].filter(Boolean).join(' ').trim(); nameEl.readOnly = true; }
+      if (emailEl) { emailEl.value = data.email || ''; emailEl.readOnly = true; }
+      if (phoneEl) { phoneEl.value = formatLocalPart(digitsFromAnyPhoneString(data.phone || '')); phoneEl.readOnly = true; }
+      if (submitBtn) submitBtn.style.display = 'none';
+      if (changeBtn) changeBtn.style.display = 'block';
+    }
+    function showEditState() {
+      document.querySelectorAll('#applicationForm input').forEach(i => i.readOnly = false);
+      document.getElementById('submitBtn').style.display = 'block';
+      document.getElementById('changeBtn').style.display = 'none';
+    }
+
+    async function submitToApi(firstName, lastName, email, phone) {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ first_name: firstName, last_name: lastName, email, phone, country: 'CA' })
+      });
+      let result = {};
+      try { result = await res.json(); } catch {}
+      if (!res.ok) throw new Error(result.message || result.error || 'Request failed');
+      const isOk = result.success === 'true' || result.success === true;
+      if (!isOk) throw new Error(result.message || result.error || 'Invalid response from server');
+      return result;
+    }
+
+    function init() {
+      const form = document.getElementById('applicationForm');
+      if (!form) return;
+      const submitBtn = document.getElementById('submitBtn');
+      const changeBtn = document.getElementById('changeBtn');
+      const modalOverlay = document.getElementById('modalOverlay');
+      const modalClose   = document.getElementById('modalCloseBtn');
+
+      initPhoneMask();
+
+      const stored = getStoredData();
+      if (stored && stored.submitted) showSubmittedState(stored);
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const { firstName, lastName } = splitFullName(document.getElementById('fullName').value.trim());
+        const lastNameOut = (lastName && lastName.trim()) || '-';
+        const email = document.getElementById('email').value.trim();
+        const phone = getPhoneDigitsForSubmit(document.getElementById('phone'));
+        if (!firstName) { showModal('Error', 'Please enter your name.'); return; }
+        if (!phone)     { showModal('Error', 'Please enter a complete 10-digit Canadian phone number.'); return; }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        try {
+          await submitToApi(firstName, lastNameOut, email, phone);
+          if (typeof fbq === 'function') fbq('track', 'Lead');
+          saveData(firstName, lastNameOut, email, phone);
+          showSubmittedState({ firstName, lastName: lastNameOut, email, phone });
+          showModal('Success', 'Application submitted successfully. Thank you!');
+        } catch (err) {
+          showModal('Error', err.message || 'Failed to submit. Please try again.');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit';
+        }
+      });
+
+      if (changeBtn) changeBtn.addEventListener('click', showEditState);
+      if (modalClose) modalClose.addEventListener('click', closeModal);
+      if (modalOverlay) modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && modalOverlay?.classList.contains('is-open')) closeModal(); });
+    }
+
+    init();
+  })();
+</script>
+</body>
+</html>
